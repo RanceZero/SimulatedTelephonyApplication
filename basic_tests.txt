@@ -1,0 +1,7 @@
+create_operator A
+create_operator B
+
+call 1
+
+answer A
+exit
