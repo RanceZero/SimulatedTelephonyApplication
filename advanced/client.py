@@ -32,12 +32,15 @@ class Cmd(cmd.Cmd):
             print '*** Unknown syntax: ' + args
         return False
 
+    def emptyline(self):
+        return False
+
     def do_exit(self,arg):
         return 'exit'
 
 class Client(protocol.Protocol):
     def connectionMade(self):
-        input = raw_input('\'exit\' to exit\n')
+        input = raw_input()
         request = Cmd.onecmd(input)
         if request == 'exit':
             self.transport.loseConnection()
@@ -58,7 +61,7 @@ class Client(protocol.Protocol):
             self.transport.loseConnection()
             return
         while not request:
-            raw_input()
+            input = raw_input()
             request = Cmd.onecmd(input)
             if request=='exit':
                 self.transport.loseConnection()

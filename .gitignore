@@ -1,0 +1,3 @@
+/tests/*
+!/tests/expected_result.txt
+!/tests/tests.txt

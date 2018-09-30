@@ -82,10 +82,6 @@ class Cmd(cmd.Cmd):
             if remove_from_queue(call):
                 print 'Call ' + call + ' missed'
 
-    def do_create_operator(self, arg):
-        args=arg.split()
-        Operators[args[0]]='available'
-
     def emptyline(self):
         pass
 
@@ -102,7 +98,7 @@ class Cmd(cmd.Cmd):
         print '*** Unknown syntax: ' + args
 
 
-Operators = {}     # operator:state
+Operators = {'A':'available', 'B', 'available'}     # operator:state
 ringingCalls = {}  # operator:call_id
 ongoingCalls = {}  # call_id:operator
 
