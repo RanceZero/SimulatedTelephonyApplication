@@ -1,7 +1,56 @@
+# Test 1
 create_operator A
 create_operator B
 
+# Test 2
 call 1
 
+# Test 3
 answer A
+
+# Test 4
+hangup 1
+
+# Test 5
+call 2
+
+# Test 6
+call 3
+
+# Test 7
+answer A
+
+# Test 8
+answer B
+
+# Test 9
+call 4
+call 5
+
+# Test 10
+hangup 3
+
+# Test 11
+hangup 2
+
+# Test 12
+answer B
+
+# Test 13
+reject A
+
+# Test 14
+call 6
+
+# Test 15
+hangup 5
+
+# Test 16
+call 7
+
+# Test 17
+hangup 7
+hangup 6
+hangup 4
+
 exit
