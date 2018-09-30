@@ -89,6 +89,9 @@ class Cmd(cmd.Cmd):
     def do_exit(self, arg):
         return True
 
+    def do_EOF(self, arg):
+        return True
+
     def default(self, arg):
         args=arg.split()[0]
         if(args=='#'):
