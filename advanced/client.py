@@ -28,18 +28,42 @@ class Cmd(cmd.Cmd):
 
     def default(self, arg):
         args=arg.split()[0]
-        if(args=='#'):
-            return False
-        print '*** Unknown syntax: ' + args
+        if(args!='#'):
+            print '*** Unknown syntax: ' + args
         return False
+
+    def do_exit(self,arg):
+        return 'exit'
 
 class Client(protocol.Protocol):
     def connectionMade(self):
-        self.transport.write('hello man')
+        input = raw_input('\'exit\' to exit\n')
+        request = Cmd.onecmd(input)
+        if request == 'exit':
+            self.transport.loseConnection()
+            return
+        while not request:
+            input = raw_input()
+            request = Cmd.onecmd(input)
+            if request=='exit':
+                self.transport.loseConnection()
+                return
+        self.transport.write(request)
 
     def dataReceived(self, data):
-        print 'Server said: ' + data
-        self.transport.loseConnection()
+        print data
+        input = raw_input()
+        request = Cmd.onecmd(input)
+        if request == 'exit':
+            self.transport.loseConnection()
+            return
+        while not request:
+            raw_input()
+            request = Cmd.onecmd(input)
+            if request=='exit':
+                self.transport.loseConnection()
+                return
+        self.transport.write(request)
 
 class EchoFactory(protocol.ClientFactory):
     protocol = Client;
@@ -51,18 +75,18 @@ class EchoFactory(protocol.ClientFactory):
     def clientConnectionLost(self, connector, reason):
         reactor.stop()
 
-class InputReader(basic.LineReceiver):
-    from os import linesep as delimiter
-    def connectionMade(self):
-        self.transport.write('>>> ')
-
-    def lineReceived(self, line):
-        request = Cmd.onecmd(line)
-        if request:
-            print request
-        self.transport.write('>>> ')
+# class InputReader(basic.LineReceiver):
+#     from os import linesep as delimiter
+#     def connectionMade(self):
+#         self.transport.write('>>> ')
+#
+#     def lineReceived(self, line):
+#         request = Cmd.onecmd(line)
+#         if request:
+#             print request
+#         self.transport.write('>>> ')
 
 Cmd=Cmd()
-stdio.StandardIO(InputReader())
+#stdio.StandardIO(InputReader())
 something = reactor.connectTCP("localhost", 5678, EchoFactory())
 reactor.run()

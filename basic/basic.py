@@ -75,6 +75,9 @@ class Cmd(cmd.Cmd):
                 if respective_call == call:
                     del ringingCalls[operator]
                     print 'Call ' +  call + ' missed'
+                    if not calls_waiting_queue.empty():
+                        disenqueued_call_id = calls_waiting_queue.get()
+                        ring(operator, disenqueued_call_id)
                     return
             if remove_from_queue(call):
                 print 'Call ' + call + ' missed'
