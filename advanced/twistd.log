@@ -1,62 +1,11 @@
-2018-10-01T00:47:20-0300 [-] Loading test.tac...
-2018-10-01T00:47:20-0300 [-] Loaded.
-2018-10-01T00:47:20-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 17.9.0 (/usr/bin/python2 2.7.15) starting up.
-2018-10-01T00:47:20-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2018-10-01T00:47:20-0300 [stdout#info]    ----    The path to the twistd python is: /usr/bin/python2   ----
-2018-10-01T00:47:20-0300 [-] Main loop terminated.
-2018-10-01T00:47:20-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2018-10-01T16:23:12-0300 [-] Loading telephony_server.tac...
-2018-10-01T16:23:13-0300 [-] Loaded.
-2018-10-01T16:23:13-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 17.9.0 (/usr/bin/python2 2.7.15) starting up.
-2018-10-01T16:23:13-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2018-10-01T16:23:13-0300 [-] TelephonyFactory starting on 5678
-2018-10-01T16:23:13-0300 [telephony.TelephonyFactory#info] Starting factory <telephony.TelephonyFactory instance at 0x7ff9774f8368>
-2018-10-01T16:24:19-0300 [-] Received SIGTERM, shutting down.
-2018-10-01T16:24:19-0300 [-] (TCP Port 5678 Closed)
-2018-10-01T16:24:19-0300 [telephony.TelephonyFactory#info] Stopping factory <telephony.TelephonyFactory instance at 0x7ff9774f8368>
-2018-10-01T16:24:19-0300 [-] Main loop terminated.
-2018-10-01T16:24:19-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2018-10-01T16:24:23-0300 [-] Loading telephony_server.tac...
-2018-10-01T16:24:23-0300 [-] Loaded.
-2018-10-01T16:24:23-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 17.9.0 (/usr/bin/python2 2.7.15) starting up.
-2018-10-01T16:24:23-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2018-10-01T16:24:23-0300 [-] TelephonyFactory starting on 5678
-2018-10-01T16:24:23-0300 [telephony.TelephonyFactory#info] Starting factory <telephony.TelephonyFactory instance at 0x7f224ab1a368>
-2018-10-01T16:24:35-0300 [-] Received SIGTERM, shutting down.
-2018-10-01T16:24:35-0300 [-] (TCP Port 5678 Closed)
-2018-10-01T16:24:35-0300 [telephony.TelephonyFactory#info] Stopping factory <telephony.TelephonyFactory instance at 0x7f224ab1a368>
-2018-10-01T16:24:35-0300 [-] Main loop terminated.
-2018-10-01T16:24:35-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2018-10-01T16:26:28-0300 [-] Loading telephony_server.tac...
-2018-10-01T16:26:29-0300 [-] Loaded.
-2018-10-01T16:26:29-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 17.9.0 (/usr/bin/python2 2.7.15) starting up.
-2018-10-01T16:26:29-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2018-10-01T16:26:29-0300 [-] TelephonyFactory starting on 5678
-2018-10-01T16:26:29-0300 [telephony.TelephonyFactory#info] Starting factory <telephony.TelephonyFactory instance at 0x7feb4d281368>
-2018-10-01T16:26:43-0300 [-] Received SIGTERM, shutting down.
-2018-10-01T16:26:43-0300 [-] (TCP Port 5678 Closed)
-2018-10-01T16:26:43-0300 [telephony.TelephonyFactory#info] Stopping factory <telephony.TelephonyFactory instance at 0x7feb4d281368>
-2018-10-01T16:26:43-0300 [-] Main loop terminated.
-2018-10-01T16:26:43-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2018-10-01T16:28:42-0300 [-] Loading telephony_server.tac...
-2018-10-01T16:28:42-0300 [-] Loaded.
-2018-10-01T16:28:42-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 17.9.0 (/usr/bin/python2 2.7.15) starting up.
-2018-10-01T16:28:42-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2018-10-01T16:28:42-0300 [-] TelephonyFactory starting on 5678
-2018-10-01T16:28:42-0300 [telephony.TelephonyFactory#info] Starting factory <telephony.TelephonyFactory instance at 0x7f89fe4e2368>
-2018-10-01T16:28:54-0300 [-] Received SIGTERM, shutting down.
-2018-10-01T16:28:54-0300 [-] (TCP Port 5678 Closed)
-2018-10-01T16:28:54-0300 [telephony.TelephonyFactory#info] Stopping factory <telephony.TelephonyFactory instance at 0x7f89fe4e2368>
-2018-10-01T16:28:54-0300 [-] Main loop terminated.
-2018-10-01T16:28:54-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
-2018-10-01T16:33:24-0300 [-] Loading telephony_server.tac...
-2018-10-01T16:33:24-0300 [-] Loaded.
-2018-10-01T16:33:24-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 17.9.0 (/usr/bin/python2 2.7.15) starting up.
-2018-10-01T16:33:24-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
-2018-10-01T16:33:24-0300 [-] TelephonyFactory starting on 5678
-2018-10-01T16:33:24-0300 [telephony.TelephonyFactory#info] Starting factory <telephony.TelephonyFactory instance at 0x7f48c01f8368>
-2018-10-01T16:33:54-0300 [-] Received SIGTERM, shutting down.
-2018-10-01T16:33:54-0300 [-] (TCP Port 5678 Closed)
-2018-10-01T16:33:54-0300 [telephony.TelephonyFactory#info] Stopping factory <telephony.TelephonyFactory instance at 0x7f48c01f8368>
-2018-10-01T16:33:54-0300 [-] Main loop terminated.
-2018-10-01T16:33:54-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2018-10-01T18:05:27-0300 [-] Loading queue_manager_server.tac...
+2018-10-01T18:05:28-0300 [-] Loaded.
+2018-10-01T18:05:28-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 17.9.0 (/usr/bin/python2 2.7.15) starting up.
+2018-10-01T18:05:28-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2018-10-01T18:05:28-0300 [-] QueueMananagerFactory starting on 5678
+2018-10-01T18:05:28-0300 [queue_manager.QueueMananagerFactory#info] Starting factory <queue_manager.QueueMananagerFactory instance at 0x7f87ad172368>
+2018-10-01T18:05:53-0300 [-] Received SIGTERM, shutting down.
+2018-10-01T18:05:53-0300 [-] (TCP Port 5678 Closed)
+2018-10-01T18:05:53-0300 [queue_manager.QueueMananagerFactory#info] Stopping factory <queue_manager.QueueMananagerFactory instance at 0x7f87ad172368>
+2018-10-01T18:05:53-0300 [-] Main loop terminated.
+2018-10-01T18:05:53-0300 [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.

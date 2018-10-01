@@ -5,7 +5,7 @@ import Queue
 
 
 
-class Telephony(protocol.Protocol):
+class QueueMananager(protocol.Protocol):
 
     def respond(self, *response):
         index = 0
@@ -118,11 +118,11 @@ class Telephony(protocol.Protocol):
                 response.append('Call ' + call_id + ' missed')
                 return response
 
-class TelephonyFactory(protocol.Factory):
+class QueueMananagerFactory(protocol.Factory):
     def __init__(self):
         self.Operators = {'A':'available', 'B':'available'}  # operator:state
         self.ringingCalls = {}                               # operator:call_id
         self.ongoingCalls = {}                               # call_id:operator
         self.calls_waiting_queue = Queue.Queue()
 
-    protocol = Telephony
+    protocol = QueueMananager

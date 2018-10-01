@@ -40,7 +40,7 @@ class Cmd(cmd.Cmd):
     def do_exit(self,arg):
         return 'exit'
 
-class Client(protocol.Protocol):
+class CommandInterpreter(protocol.Protocol):
     def connectionMade(self):
         input = raw_input()
         request = Cmd.onecmd(input)
@@ -70,8 +70,8 @@ class Client(protocol.Protocol):
                 return
         self.transport.write(request)
 
-class EchoFactory(protocol.ClientFactory):
-    protocol = Client;
+class CommandInterpreterFactory(protocol.ClientFactory):
+    protocol = CommandInterpreter;
 
     def clientConnectionFailed(self, connector, reason):
         print "Connection Failed " + reason
@@ -95,5 +95,5 @@ class EchoFactory(protocol.ClientFactory):
 
 Cmd=Cmd()
 #stdio.StandardIO(InputReader())
-something = reactor.connectTCP("localhost", 5678, EchoFactory())
+something = reactor.connectTCP("localhost", 5678, CommandInterpreterFactory())
 reactor.run()

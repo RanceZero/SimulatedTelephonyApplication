@@ -2,3 +2,4 @@
 !/tests/expected_result.txt
 !/tests/tests.txt
 /advanced/telephony.pyc
+/advanced/twistd.log
