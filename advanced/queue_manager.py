@@ -126,8 +126,3 @@ class TelephonyFactory(protocol.Factory):
         self.calls_waiting_queue = Queue.Queue()
 
     protocol = Telephony
-
-
-
-reactor.listenTCP(5678, TelephonyFactory())
-reactor.run()
