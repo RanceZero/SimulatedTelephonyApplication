@@ -1,5 +1,5 @@
 /tests/*
 !/tests/expected_result.txt
 !/tests/tests.txt
-/advanced/telephony.pyc
+/advanced/queue_manager.pyc
 /advanced/twistd.log
