@@ -3,6 +3,8 @@ from twisted.protocols.basic import LineReceiver
 import json
 import Queue
 
+
+
 class Echo(protocol.Protocol):
 
     def respond(self, *response):
@@ -116,7 +118,6 @@ class Echo(protocol.Protocol):
                 response.append('Call ' + call_id + ' missed')
                 return response
 
-
 class EchoFactory(protocol.Factory):
     def __init__(self):
         self.Operators = {'A':'available', 'B':'available'}  # operator:state
@@ -125,6 +126,8 @@ class EchoFactory(protocol.Factory):
         self.calls_waiting_queue = Queue.Queue()
 
     protocol = Echo
+
+
 
 reactor.listenTCP(5678, EchoFactory())
 reactor.run()

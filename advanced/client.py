@@ -4,6 +4,8 @@ from twisted.protocols import basic
 import cmd
 import json
 
+
+
 class Cmd(cmd.Cmd):
 
     def do_call(self, arg):
@@ -89,7 +91,9 @@ class EchoFactory(protocol.ClientFactory):
 #             print request
 #         self.transport.write('>>> ')
 
-Cmd=Cmd()
-#stdio.StandardIO(InputReader())
-something = reactor.connectTCP("localhost", 5678, EchoFactory())
-reactor.run()
+
+
+    Cmd=Cmd()
+    #stdio.StandardIO(InputReader())
+    something = reactor.connectTCP("localhost", 5678, EchoFactory())
+    reactor.run()

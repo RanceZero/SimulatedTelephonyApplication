@@ -1,6 +1,8 @@
 import cmd
 import Queue
 
+
+
 def ring(operator, call_id):
     Operators[operator] = 'ringing'
     ringingCalls[operator]=call_id
@@ -29,7 +31,6 @@ def remove_from_queue(call):
         queue_object = auxiliary_queue.get()
         calls_waiting_queue.put(queue_object)
         return False
-
 
 class Cmd(cmd.Cmd):
 
@@ -98,7 +99,8 @@ class Cmd(cmd.Cmd):
         print '*** Unknown syntax: ' + args
 
 
-Operators = {'A':'available', 'B', 'available'}     # operator:state
+
+Operators = {'A':'available', 'B': 'available'}     # operator:state
 ringingCalls = {}  # operator:call_id
 ongoingCalls = {}  # call_id:operator
 
