@@ -93,7 +93,7 @@ class EchoFactory(protocol.ClientFactory):
 
 
 
-    Cmd=Cmd()
-    #stdio.StandardIO(InputReader())
-    something = reactor.connectTCP("localhost", 5678, EchoFactory())
-    reactor.run()
+Cmd=Cmd()
+#stdio.StandardIO(InputReader())
+something = reactor.connectTCP("localhost", 5678, EchoFactory())
+reactor.run()
