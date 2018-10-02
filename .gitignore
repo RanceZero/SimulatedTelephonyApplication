@@ -2,4 +2,4 @@
 !/tests/expected_result.txt
 !/tests/tests.txt
 /advanced/queue_manager.pyc
-/advanced/twistd.log
+/advanced/twistd*

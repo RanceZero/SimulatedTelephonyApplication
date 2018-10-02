@@ -1,8 +1,8 @@
 from twisted.internet import reactor, protocol
 from twisted.internet import stdio
+from twisted.internet.endpoints import Protocol
 from twisted.protocols import basic
-import cmd
-import json
+import cmd, json , sys
 
 
 
@@ -41,37 +41,23 @@ class Cmd(cmd.Cmd):
         return 'exit'
 
 class CommandInterpreter(protocol.Protocol):
-    def connectionMade(self):
-        input = raw_input()
-        request = Cmd.onecmd(input)
-        if request == 'exit':
-            self.transport.loseConnection()
-            return
-        while not request:
-            input = raw_input()
-            request = Cmd.onecmd(input)
-            if request=='exit':
-                self.transport.loseConnection()
-                return
-        self.transport.write(request)
 
     def dataReceived(self, data):
         print data
-        input = raw_input()
-        request = Cmd.onecmd(input)
+        sys.stdout.write('>>> ')
+        sys.stdout.flush()
+
+    def sendRequest(self, request):
         if request == 'exit':
             self.transport.loseConnection()
             return
-        while not request:
-            input = raw_input()
-            request = Cmd.onecmd(input)
-            if request=='exit':
-                self.transport.loseConnection()
-                return
         self.transport.write(request)
 
 class CommandInterpreterFactory(protocol.ClientFactory):
-    protocol = CommandInterpreter;
+    def buildProtocol(self, addr):
+        global myCommandInterpreter
+        myCommandInterpreter = CommandInterpreter()
+        return myCommandInterpreter
 
     def clientConnectionFailed(self, connector, reason):
         print "Connection Failed " + reason
@@ -80,20 +66,22 @@ class CommandInterpreterFactory(protocol.ClientFactory):
     def clientConnectionLost(self, connector, reason):
         reactor.stop()
 
-# class InputReader(basic.LineReceiver):
-#     from os import linesep as delimiter
-#     def connectionMade(self):
-#         self.transport.write('>>> ')
-#
-#     def lineReceived(self, line):
-#         request = Cmd.onecmd(line)
-#         if request:
-#             print request
-#         self.transport.write('>>> ')
+class InputReader(basic.LineReceiver):
+    from os import linesep as delimiter
+
+    def connectionMade(self):
+        self.transport.write('\'exit\' to exit\n>>> ')
+
+    def lineReceived(self, line):
+        request = Cmd.onecmd(line)
+        if not request:
+            self.transport.write('>>> ')
+        if request:
+            myCommandInterpreter.sendRequest(request)
 
 
-
+myCommandInterpreter = None
 Cmd=Cmd()
-#stdio.StandardIO(InputReader())
-something = reactor.connectTCP("localhost", 5678, CommandInterpreterFactory())
+reactor.connectTCP("localhost", 5678, CommandInterpreterFactory())
+stdio.StandardIO(InputReader())
 reactor.run()

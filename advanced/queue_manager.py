@@ -7,14 +7,28 @@ import Queue
 
 class QueueMananager(protocol.Protocol):
 
-    def respond(self, *response):
+    def ignoredCall(self, call_id, operator):
+        response = []
+        del self.factory.ringingCalls[operator]
+        response.append('\nCall ' + call_id + ' ignored by operator ' + operator)
+        if self.ring_call(call_id, response):
+            self.factory.Operators[operator] = 'available'
+            self.respond(self.parseResponse(*response))
+            return
+        self.ring(operator, call_id, response)
+        self.respond(self.parseResponse(*response))
+
+    def parseResponse(self, *response):
         index = 0
         parsed_response=''
         while index < len(response)-1:
             parsed_response += response[index] + '\n'
             index+=1
         parsed_response += response[index]
-        self.transport.write(parsed_response)
+        return parsed_response
+
+    def respond(self, response):
+        self.transport.write(response)
 
     def dataReceived(self, data):
         request = json.loads(data)
@@ -23,21 +37,22 @@ class QueueMananager(protocol.Protocol):
 
         if command=='call':
             response = self.call(id)
-            self.respond(*response)
+            self.respond(response)
         elif command=='answer':
             response= self.answer(id)
-            self.respond(*response)
+            self.respond(response)
         elif command=='reject':
             response = self.reject(id)
-            self.respond(*response)
+            self.respond(response)
         elif command=='hangup':
             response = self.hangup(id)
-            self.respond(*response)
+            self.respond(response)
 
     def ring(self, operator, call_id, response):
         self.factory.Operators[operator] = 'ringing'
         self.factory.ringingCalls[operator]=call_id
         response.append('Call ' + call_id + ' ringing for operator ' + operator)
+        reactor.callLater(10, self.ignoredCall, call_id, operator)
 
     def ring_call(self, call_id, response):
         for operator, state in self.factory.Operators.iteritems():
@@ -67,10 +82,10 @@ class QueueMananager(protocol.Protocol):
         response = []
         response.append('Call ' + call_id + ' received')
         if self.ring_call(call_id,response):
-            return response
+            return self.parseResponse(*response)
         self.factory.calls_waiting_queue.put(call_id)
         response.append('Call ' + call_id + ' waiting in queue')
-        return response
+        return self.parseResponse(*response)
 
     def answer(self, operator_id):
         response = []
@@ -79,7 +94,7 @@ class QueueMananager(protocol.Protocol):
         self.factory.ongoingCalls[call_id]=operator_id
         del self.factory.ringingCalls[operator_id]
         response.append('Call ' + call_id + ' answered by operator ' + operator_id)
-        return response
+        return self.parseResponse(*response)
 
     def reject(self, operator_id):
         response = []
@@ -87,11 +102,10 @@ class QueueMananager(protocol.Protocol):
         del self.factory.ringingCalls[operator_id]
         response.append('Call ' + call_id + ' rejected by operator ' + operator_id)
         if self.ring_call(call_id, response):
-            Operators[operator_id] = 'available'
-            return response
-        self.factory.ringingCalls[operator_id] = call_id
-        response.append('Call ' + call_id + ' ringing for operator ' + operator_id)
-        return response
+            self.factory.Operators[operator_id] = 'available'
+            return self.parseResponse(*response)
+        self.ring(operator_id, call_id, response)
+        return self.parseResponse(*response)
 
     def hangup(self, call_id):
         response= []
@@ -103,8 +117,8 @@ class QueueMananager(protocol.Protocol):
             if not self.factory.calls_waiting_queue.empty():
                  disenqueued_call_id = self.factory.calls_waiting_queue.get()
                  self.ring(operator, disenqueued_call_id, response)
-                 return response
-            return response
+                 return self.parseResponse(*response)
+            return self.parseResponse(*response)
         else:
             for operator, respective_call in self.factory.ringingCalls.iteritems():
                 if respective_call == call_id:
@@ -113,10 +127,10 @@ class QueueMananager(protocol.Protocol):
                     if not self.factory.calls_waiting_queue.empty():
                         disenqueued_call_id = self.factory.calls_waiting_queue.get()
                         self.ring(operator, disenqueued_call_id, response)
-                    return response
+                    return self.parseResponse(*response)
             if self.remove_from_queue(call_id):
                 response.append('Call ' + call_id + ' missed')
-                return response
+                return self.parseResponse(*response)
 
 class QueueMananagerFactory(protocol.Factory):
     def __init__(self):
