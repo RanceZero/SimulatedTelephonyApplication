@@ -118,7 +118,7 @@ class QueueMananager(protocol.Protocol):
         return self.parseResponse(*response)
 
     def hangup(self, call_id):
-        for index in range(len(self.session_calls)):
+        for index in range(len(self.session_calls)-1):
             if call_id==self.session_calls[index]:
                 del self.session_calls[index]
         response= []
