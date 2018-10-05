@@ -1,6 +1,5 @@
 from twisted.internet import reactor, protocol
 from twisted.internet import stdio
-from twisted.internet.endpoints import Protocol
 from twisted.protocols import basic
 import cmd, json , sys
 
