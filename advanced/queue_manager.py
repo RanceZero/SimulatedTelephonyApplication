@@ -9,35 +9,12 @@ class QueueMananager(protocol.Protocol):
 
     def __init__(self, factory):
         self.factory = factory
-        self.session_calls=[]
+        self.session_calls=[] # Calls que sao da comunicacao com esse cliente
 
+    # Da hangup em todas as calls desse cliente
     def connectionLost(self, reason):
         for call in self.session_calls:
             self.hangup(call)
-
-    def ignoredCall(self, call_id, operator):
-        response = []
-        if operator in self.factory.ringingCalls:
-            del self.factory.ringingCalls[operator]
-            response.append('\nCall ' + call_id + ' ignored by operator ' + operator)
-            if self.ring_call(call_id, response):
-                self.factory.Operators[operator] = 'available'
-                self.respond(self.parseResponse(*response))
-                return
-            self.ring(operator, call_id, response)
-            self.respond(self.parseResponse(*response))
-
-    def parseResponse(self, *response):
-        index = 0
-        parsed_response=''
-        while index < len(response)-1:
-            parsed_response += response[index] + '\n'
-            index+=1
-        parsed_response += response[index]
-        return parsed_response
-
-    def respond(self, response):
-        self.transport.write(response)
 
     def dataReceived(self, data):
         request = json.loads(data)
@@ -57,31 +34,76 @@ class QueueMananager(protocol.Protocol):
             response = self.hangup(id)
             self.respond(response)
 
+    # Executa quando uma call eh ignorada por 10 seg
+    # tendo execucao semelhante a de quando a call eh
+    # rejected, CHAMA RESPOND() DIRETO
+    def ignoredCall(self, call_id, operator):
+        response = []
+        if operator in self.factory.ringingCalls:
+            del self.factory.ringingCalls[operator]
+            response.append('\nCall ' + call_id + ' ignored by operator ' + operator)
+            if self.ring_call(call_id, response):
+                self.factory.Operators[operator] = 'available'
+                self.respond(self.parseResponse(*response))
+                return
+            self.ring(operator, call_id, response)
+            self.respond(self.parseResponse(*response))
+
+    # Retira a response do vetor e a junta
+    # em uma soh com quebra de linhas
+    def parseResponse(self, *response):
+        index = 0
+        parsed_response=''
+        while index < len(response)-1:
+            parsed_response += response[index] + '\n'
+            index+=1
+        parsed_response += response[index]
+        return parsed_response
+
+    # Responde response para o cliente
+    def respond(self, response):
+        self.transport.write(response)
+
+    # Chamado para tocar a chamada call_id
+    # para o operador operator
     def ring(self, operator, call_id, response):
         self.factory.Operators[operator] = 'ringing'
         self.factory.ringingCalls[operator]=call_id
         response.append('Call ' + call_id + ' ringing for operator ' + operator)
         reactor.callLater(10, self.ignoredCall, call_id, operator)
 
+    # Chamado para verificar, qual operador em
+    # self.factory.Operators esta disponivel para
+    # responder a call, em seguida chama ring()
+    # para tal operador
     def ring_call(self, call_id, response):
         for operator, state in self.factory.Operators.iteritems():
             if state == 'available':
                 self.ring(operator, call_id, response)
                 return True
 
+    # Remove call de calls_waiting_queue
     def remove_from_queue(self, call):
         auxiliary_queue = Queue.Queue()
+
+        # Vai tirando da calls_waiting_queue e pondo na
+        # auxiliary_queue, ate achar a call
         while not self.factory.calls_waiting_queue.empty():
             queue_object = self.factory.calls_waiting_queue.get()
             if queue_object == call:
+                # Poe os restantes em auxiliary_queue, deixando call de fora
                 while not self.factory.calls_waiting_queue.empty():
                     queue_object = self.factory.calls_waiting_queue.get()
                     auxiliary_queue.put(queue_object)
+                # poe tudo de volta em calls_waiting_queue, agora
+                # sem o call
                 while not auxiliary_queue.empty():
                     queue_object = auxiliary_queue.get()
                     self.factory.calls_waiting_queue.put(queue_object)
                 return True
             auxiliary_queue.put(queue_object)
+
+        # Caso nao encontrou so poe de volta tudo na calls_waiting_queue
         while not auxiliary_queue.empty():
             queue_object = auxiliary_queue.get()
             self.factory.calls_waiting_queue.put(queue_object)
